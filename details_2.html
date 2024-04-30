@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnkitDa Room</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #278cf8;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .room-info {
+            margin-bottom: 20px;
+        }
+        .room-info p {
+            margin: 5px 0;
+        }
+        .media {
+            text-align: center;
+        }
+        @media screen and (max-width: 600px) {
+            video,
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to VikashtDa Room</h1>
+        </div>
+        <div class="room-info">
+            <p><strong>Owner:</strong> VikashDa</p>
+            <p><strong>Number of Rooms:</strong> 1</p>
+            <p><strong>Price (per Head):</strong> Rs.2500</p>
+            <p><strong>Location:</strong>Kshudiram</p>
+            <p><strong>Details:</strong> This room is near kshudiram Ground.</p>
+        </div>
+        <div class="media">
+            <h2>Media Options</h2>
+            <p><strong>Video:</strong></p>
+            <video controls width="400">
+                <source src="Details_1_video.mp4" type="video/mp4">
+                <source src="Details_1_video2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p><strong>Image:</strong></p>
+            <img src="Details_1_image2.jpg" alt="AnkitDa Room Image" width="400">
+            <img src="Details_1_image.jpg" alt="AnkitDa Room Image" width="400">
+        </div>
+    </div>
+</body>
+</html>
