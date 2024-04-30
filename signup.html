@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .UtkarshPradesh {
+            font-size: 14px;
+            text-decoration: none;
+            color: #fff;
+        }
+        .container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Eazyit</h1>
+        <a href="#" class="UtkarshPradesh">Utkarsh Pradesh</a>
+    </div>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            
+            <label for="password">Create Password:</label>
+            <input type="password" id="password" required>
+            
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" required>
+            <span id="passwordError" class="error" style="display: none;">Passwords do not match!</span>
+            
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <h2>Sign In</h2>
+        <form id="signinForm">
+            <label for="signinEmail">Email:</label>
+            <input type="email" id="signinEmail" required>
+            
+            <label for="signinPassword">Password:</label>
+            <input type="password" id="signinPassword" required>
+            <span id="signinError" class="error" style="display: none;">Invalid email or password!</span>
+            
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
+
+    <script>
+        // Sign Up Form
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+            var passwordError = document.getElementById('passwordError');
+
+            if (password !== confirmPassword) {
+                passwordError.style.display = 'block';
+                return;
+            }
+
+            // Store user data in localStorage
+            localStorage.setItem('user', JSON.stringify({ name: name, email: email, password: password }));
+
+            // Redirect to the room listing page
+            window.location.href = 'index.html';
+        });
+
+        // Sign In Form
+        document.getElementById('signinForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var email = document.getElementById('signinEmail').value;
+            var password = document.getElementById('signinPassword').value;
+            var storedUserData = JSON.parse(localStorage.getItem('user'));
+            var signinError = document.getElementById('signinError');
+
+            if (!storedUserData || storedUserData.email !== email || storedUserData.password !== password) {
+                signinError.style.display = 'block';
+                return;
+            }
+
+            // Redirect to the room listing page
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
