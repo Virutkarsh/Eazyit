@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Listing</title>
+    <style>
+        /* Basic CSS for styling */
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* Remove the background-color property */
+    /* background-color: #f4f4f4; */
+
+    /* Set the background image */
+    background-image: url('aesthetic-room-decor.jpg'); /* Replace 'your-image.jpg' with the path to your image */
+    background-size: cover; /* Cover the entire background */
+    background-position: center; /* Center the background image */
+}
+
+        .header {
+            background-color: #007bff; /* Blue color */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .UtkarshPradesh {
+            font-size: 14px;
+            text-decoration: none;
+            color: #fff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        .room-listing {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .room-listing img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .room-details {
+            color: #666;
+        }
+        .room-contact {
+            margin-top: 10px;
+        }
+        /* Styles for the filter */
+        .filter {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .filter label {
+            font-weight: bold;
+            margin-right: 10px;
+            flex: 1 0 100%; /* Take full width on small screens */
+        }
+        .filter select {
+            flex: 1 0 auto;
+            margin-right: 10px;
+        }
+        /* Button style */
+        .show-details-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .user-profile {
+            position: relative;
+            display: inline-block;
+        }
+
+        #profileBox {
+            position: relative;
+            padding: 10px;
+            background-color: #fff; /* White background */
+            color: #007bff; /* Blue text */
+            border-radius: 5%; /* Round shape */
+            cursor: pointer;
+        }
+
+        #logout {
+            position: absolute;
+            top: calc(100% + 5px); /* Position below the profile box */
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .user-profile:hover #logout {
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Eazyit</h1>
+        <a href="#" class="UtkarshPradesh">Utkarsh Pradesh</a>
+        <div class="user-profile">
+            <div id="profileBox">
+                <span id="userName"></span>
+                <button id="logout">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Filter Section -->
+        <div class="filter">
+            <label for="rooms">Number of Rooms:</label>
+            <select id="rooms">
+                <option value="">Any</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+
+            <label for="price">Price (in Rupees):</label>
+            <select id="price">
+                <option value="">Any</option>
+                <option value="1000-1500">₹1000 - ₹1500</option>
+                <option value="1501-2000">₹1501 - ₹2000</option>
+                <option value="2001-2500">₹2001 - ₹2500</option>
+                <option value="2501-3000">₹2501 - ₹3000</option>
+            </select>
+
+            <label for="location">Location:</label>
+            <select id="location">
+                <option value="">Any</option>
+                <option value="Kshudiram">Kshudiram</option>
+                <option value="Gandhinagar">Gandhinagar</option>
+            </select>
+        </div>
+        <!-- End of Filter Section -->
+
+        <h2>Room Listings</h2>
+        <div id="roomListings">
+            <!-- Room listings will be dynamically populated here -->
+        </div>
+    </div>
+
+    <script>
+        // Mock data array containing room listings
+        var roomListings = [
+            { id: 1, location: 'Kshudiram', price: 1500, rooms: 2 },
+            { id: 2, location: 'Gandhinagar', price: 2000, rooms: 1 },
+            { id: 3, location: 'Kshudiram', price: 3000, rooms: 1 }
+            // Add more room listings as needed
+        ];
+
+        // Function to filter and display room listings based on user's selection
+        function filterListings() {
+            var rooms = document.getElementById('rooms').value;
+            var price = document.getElementById('price').value;
+            var location = document.getElementById('location').value;
+
+            // Filter the room listings based on the selected options
+            var filteredListings = roomListings.filter(function(listing) {
+                if (rooms && listing.rooms != rooms) return false;
+                if (price) {
+                    var priceRange = price.split('-');
+                    if (listing.price < parseInt(priceRange[0]) || listing.price > parseInt(priceRange[1])) return false;
+                }
+                if (location && listing.location != location) return false;
+                return true;
+            });
+
+            // Display the filtered room listings
+            displayListings(filteredListings);
+        }
+
+        // Function to display room listings
+        function displayListings(listings) {
+            var roomListingsContainer = document.getElementById('roomListings');
+            roomListingsContainer.innerHTML = '';
+
+            if (listings.length === 0) {
+                roomListingsContainer.innerHTML = "<p>No listings match the selected criteria.</p>";
+                return;
+            }
+
+            // Create HTML elements for each room listing
+            listings.forEach(function(listing) {
+                var roomListingElement = document.createElement('div');
+                roomListingElement.classList.add('room-listing');
+
+                roomListingElement.innerHTML = `
+                    <div class="room-details">
+                        <p><strong>Location:</strong> ${listing.location}</p>
+                        <p><strong>Price:</strong> ₹${listing.price} per month</p>
+                        <p><strong>Number of Rooms:</strong> ${listing.rooms}</p>
+                    </div>
+                    <a href="Details.html?id=${listing.id}" class="show-details-button">Show Details</a>
+                `;
+
+                roomListingsContainer.appendChild(roomListingElement);
+            });
+        }
+
+        // Retrieve user data from localStorage
+        var userData = JSON.parse(localStorage.getItem('user'));
+        var userNameElement = document.getElementById('userName');
+        userNameElement.innerText = userData.name;
+
+        // Logout functionality
+        var logoutButton = document.getElementById('logout');
+        logoutButton.addEventListener('click', function() {
+            // Clear user data from localStorage
+            localStorage.removeItem('user');
+            // Redirect to the signup page
+            window.location.href = 'signup.html';
+        });
+
+        // Event listeners to trigger filtering when options are changed
+        document.getElementById('rooms').addEventListener('change', filterListings);
+        document.getElementById('price').addEventListener('change', filterListings);
+        document.getElementById('location').addEventListener('change', filterListings);
+
+        // Initially, trigger filtering to show default listings
+        filterListings();
+
+
+
+        // Function to generate a unique HTML page URL for each listing
+function generateDetailsPageURL(listingId) {
+    return "Details_" + listingId + ".html"; // Modify the URL format as needed
+}
+
+// Function to display room listings
+function displayListings(listings) {
+    var roomListingsContainer = document.getElementById('roomListings');
+    roomListingsContainer.innerHTML = '';
+
+    if (listings.length === 0) {
+        roomListingsContainer.innerHTML = "<p>No listings match the selected criteria.</p>";
+        return;
+    }
+
+    // Create HTML elements for each room listing
+    listings.forEach(function(listing) {
+        var roomListingElement = document.createElement('div');
+        roomListingElement.classList.add('room-listing');
+
+        roomListingElement.innerHTML = `
+            <div class="room-details">
+                <p><strong>Location:</strong> ${listing.location}</p>
+                <p><strong>Price:</strong> ₹${listing.price} per month</p>
+                <p><strong>Number of Rooms:</strong> ${listing.rooms}</p>
+            </div>
+            <a href="${generateDetailsPageURL(listing.id)}" class="show-details-button">Show Details</a>
+        `;
+
+        roomListingsContainer.appendChild(roomListingElement);
+    });
+}
+
+    </script>
+</body>
+</html>
